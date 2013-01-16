@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="pickcolor">Pick a Color</string>
+	<string name="spot1">Meeting Point</string>
+	<string name="spot2">Car</string>
+	<string name="spot3">Hotel</string>
+	<string name="mapmarkGoogleplex">Googleplex</string>
+	<string name="mapmarkMtEverest">Mt. Everest</string>
+	<string name="mapmarkMtKilimanjaro">Mt. Kilimanjaro</string>
+	<string name="mapmarkAyersRock">Ayers Rock</string>
+	<string name="mapmarkMachuPicchu">Machu Picchu</string>
+	<string name="mapmarkEiffelTower">Eiffel Tower</string>
+	<string name="newspot">New Spot</string>
+	<string name="addmapmark">Add Mapmark</string>
+	<string name="markspot">Mark Spot</string>
+	<string name="pointers">Pointers</string>
+	<string name="addbuddy">Add Buddy</string>
+	<string name="help">Help</string>
+	<string name="about">About</string>
+	<string name="enablegps">Enable GPS to increase accuracy</string>
+	<string name="accuracy">Spot marked with accuracy</string>
+	<string name="nobuddy">Due to lack of support by Google Latitude, buddy tracking has not yet been implemented in this version.</string>
+	<string name="welcome">Welcome</string>
+	<string name="instructions">Instructions</string>
+	<string name="shortintro">Press the <b>menu</b> button to:\n<b>Add MapMark</b> - add a pointer to a location of interest.\n<b>Mark Spot</b> - add a pointer to the current location.\n<b>Pointers</b> - show or hide and edit pointers.\n<b>Help</b> - read further instructions.\n</string>
+	<string name="intro"><b>Screen</b>\nThe blue circle shows the accuracy.\nThe small blue arrow in the middle always points to North.\nPointers grow and shrink according to distance.\n\n<b>Menu items</b>\n<i>Add MapMark</i> - add a pointer to a location of interest.\n<i>Mark Spot</i> - add a pointer to the current location.\n<i>Pointers</i> - show/hide, edit and delete pointers.\n\n<b>Edit MapMark</b>\n<i>Long click</i> in the pointer list to edit a point.\nTap the map to place the pointer.\n\t<i>Color</i> - tap the center of the color ring to save.\n\t<i>Proximity Alert</i> - select a radius and which alerts to receive.\n</string>
+	<string name="ok">Ok</string>
+    <string name="app_name">Point</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="new_mapmark">New MapMark</string>
+	<string name="place_marker">Tap the map to place a marker</string>
+	<string name="proxalert">Proximity Alert</string>
+	<string name="color">Color</string>
+    <string name="name">Name</string>
+	<string name="enter">Enter</string>
+	<string name="exit">Exit</string>
+	<string name="radius">Radius</string>
+    <string name="confirm_del">Are you sure you want to delete this mapmark?</string>
+    <string name="cancel">Cancel</string>
+    <string name="mapmark_saved">Mapmark saved</string>
+    <string name="mapmark_deleted">MapMark deleted</string>
+    <string name="nomapmarks">No MapMarks yet.\nPress menu to add one.</string>
+	<string name="proxexit">Exited radius {0}</string>
+	<string name="proxenter">Entered radius {0}</string>
+	<string name="abouttext">This application was created by <b>Arno den Hond</b> and <b>Rob van der Veer</b></string>
+	<string name="moreapps">Feedback</string>
+	<string name="point_version">1.0</string>
+	<string name="upgrade">Upgrade: No Ads, More Features. Only $0.99!</string>
+	<string name="upgradetext">Upgrade Point to:\n- Remove advertisements\n- Support development\n- Mark current spot\n- Set proximity alerts</string>
+	<string name="upgradebutton">Try it for 24 hours</string>
+
+<string name="no_location">No location available!</string>
+<string name="check_loc_settings">Check your phone location settings.</string>
+<string name="app_lite_name">Point Lite</string>
+</resources>
