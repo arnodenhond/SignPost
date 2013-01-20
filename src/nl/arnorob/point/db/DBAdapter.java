@@ -144,7 +144,10 @@ public class DBAdapter {
 			db.execSQL(makeSpot(context.getString(R.string.spot1),Color.RED));
 			db.execSQL(makeSpot(context.getString(R.string.spot2),Color.GREEN));
 			db.execSQL(makeSpot(context.getString(R.string.spot3),Color.BLUE));
-			db.execSQL(makeMapMark(context.getString(R.string.mapmarkGoogleplex),37.422d,-122.084d, Color.BLUE));
+			//db.execSQL(makeMapMark(context.getString(R.string.mapmarkGoogleplex),37.422d,-122.084d, Color.BLUE));
+			db.execSQL(makeMapMark("Papeete",-17.539d,-149.558d, Color.BLUE));
+			db.execSQL(makeMapMark("Nuku Hiva",-8.89d,-140.12d, Color.LTGRAY));
+			//
 			db.execSQL(makeMapMark(context.getString(R.string.mapmarkMtEverest),27.980d,86.926d, Color.GREEN));
 			db.execSQL(makeMapMark(context.getString(R.string.mapmarkMtKilimanjaro),-3.065d,37.358d, Color.YELLOW));
 			db.execSQL(makeMapMark(context.getString(R.string.mapmarkAyersRock),-25.345d,131.038d, Color.RED));

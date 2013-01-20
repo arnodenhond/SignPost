@@ -186,40 +186,40 @@ public class FlatlandView extends View {
 		arrowMatrix = new Matrix();
 	}
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		try {
-			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				xClicked = event.getX();
-				yClicked = event.getY();
-				clickTime = System.currentTimeMillis();
-				clickedTrackable = findTrackable(xClicked, yClicked);
-				if (clickedTrackable == null) {
-					Log.i("clickedTrackable", "no track there");
-					final View thisview = this;
-					Runnable action = new Runnable() {
-						public void run() {
-							thisview.invalidate();
-						}
-					};
-					postDelayed(action, DELAY_FOR_CLICK_FADE + 100);
-				} else {
-					Log.i("clickedTrackable", clickedTrackable.name);
-					SharedPreferences prefs = getContext().getSharedPreferences("mapmark", Context.MODE_PRIVATE);
-					SharedPreferences.Editor edit = prefs.edit();
-					edit.putLong("mapmark", clickedTrackable.getDbId());
-					edit.commit();
-					getContext().startActivity(new Intent(getContext().getApplicationContext(), Point.getClassForPreference(getContext(), Point.EDITMAPMARK)));
-				}
-				// show last click
-				invalidate();
-				return true;
-			}
-		} catch (Throwable t) {
-			Log.e(getClass().getSimpleName(), "", t);
-		}
-		return false;
-	}
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//		try {
+//			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//				xClicked = event.getX();
+//				yClicked = event.getY();
+//				clickTime = System.currentTimeMillis();
+//				clickedTrackable = findTrackable(xClicked, yClicked);
+//				if (clickedTrackable == null) {
+//					Log.i("clickedTrackable", "no track there");
+//					final View thisview = this;
+//					Runnable action = new Runnable() {
+//						public void run() {
+//							thisview.invalidate();
+//						}
+//					};
+//					postDelayed(action, DELAY_FOR_CLICK_FADE + 100);
+//				} else {
+//					Log.i("clickedTrackable", clickedTrackable.name);
+//					SharedPreferences prefs = getContext().getSharedPreferences("mapmark", Context.MODE_PRIVATE);
+//					SharedPreferences.Editor edit = prefs.edit();
+//					edit.putLong("mapmark", clickedTrackable.getDbId());
+//					edit.commit();
+//					getContext().startActivity(new Intent(getContext().getApplicationContext(), Point.getClassForPreference(getContext(), Point.EDITMAPMARK)));
+//				}
+//				// show last click
+//				invalidate();
+//				return true;
+//			}
+//		} catch (Throwable t) {
+//			Log.e(getClass().getSimpleName(), "", t);
+//		}
+//		return false;
+//	}
 
 	private synchronized Trackable findTrackable(float x, float y) {
 		// vind hoek & afstand tov midpoint
@@ -248,12 +248,7 @@ public class FlatlandView extends View {
 		midx = getWidth() / 2;
 		midy = getHeight() / 2;
 
-		if (tm.isUsingGPS()) {
-			satellite.setBounds(5, midx + midy - 30, 5 + 30, midx + midy);
-			satellite.draw(canvas);
-			Paint p = tm.hasGPSLock() ? gpsFixTextPaint : gpsNoFixTextPaint;
-			canvas.drawText("" + tm.getGPSSatellites(), 40, midx + midy, p);
-		}
+
 
 		final double longestArrow = (tm.getMostDistant() == null) ? 20000000 : tm.getMostDistant().getDistance();
 		int maxRingToDraw = ringDistances[ringDistances.length - 1];
@@ -271,7 +266,7 @@ public class FlatlandView extends View {
 			canvas.translate(midx, midy);
 			canvas.drawCircle(0, 0, 2, highLitePaint);
 
-			float accuracy = 200;
+			float accuracy = 1;
 			Location loc = tm.getLocation();
 			if (loc != null && loc.hasAccuracy()) {
 				accuracy = tm.getLocation().getAccuracy();
@@ -298,7 +293,7 @@ public class FlatlandView extends View {
 					}
 				}
 				canvas.restore();
-				drawAccuracy(canvas, accuracy);
+				//drawAccuracy(canvas, accuracy);
 
 				// draw arrows above accuracy circle
 				canvas.save();
@@ -312,9 +307,7 @@ public class FlatlandView extends View {
 			}
 			canvas.drawPath(northArrow, highLitePaint);
 			canvas.restore();
-			if (loc == null) {
-				drawNoLocationText(canvas);// relative to center
-			}
+			
 		}
 		canvas.restore();
 		if (clickTime > 0) {
@@ -332,26 +325,7 @@ public class FlatlandView extends View {
 		// canvas.drawText("angle:"+, start, end, x, y, paint)
 	}
 
-	private void drawNoLocationText(Canvas canvas) {
-		{
-			String text = getResources().getString(R.string.no_location);
-			final float textLength = noLocationTextPaint.measureText(text);
-			canvas.drawText(text, -textLength / 2, 30, noLocationTextPaint);
-		}
-		{
-			String text2 = getResources().getString(R.string.check_loc_settings);
-			final float textLength2 = ringTextPaint.measureText(text2);
-			canvas.drawText(text2, -textLength2 / 2, 50, ringTextPaint);
-		}
-	}
 
-	private void drawAccuracy(Canvas canvas, float accuracy) {
-		if (accuracy < 0.1)
-			return;// no accuracy available
-		float dist = scale(accuracy);
-		canvas.drawCircle(0, 0, dist, accuracyPaint);
-		drawDistance(canvas, accuracyTextPaint, (int) accuracy, dist, 270, false);
-	}
 
 	private void drawRing(Canvas canvas, int ringDistance) {
 		float size = scale(ringDistance);

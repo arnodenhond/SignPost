@@ -1,7 +1,7 @@
 package nl.arnorob.point;
 
 import nl.arnorob.point.db.DBAdapter;
-import nl.arnorob.point.mapmark.EditMapMark;
+//import nl.arnorob.point.mapmark.EditMapMark;
 import nl.arnorob.point.mapmark.MapMarkList;
 import nl.arnorob.point.view.FlatlandView;
 import nl.arnorob.pointpro.R;
@@ -113,7 +113,6 @@ public class Point extends Activity {
 		try {
 			super.onResume();
 			trackManager.setTrackables(MapMarkList.getTrackables(Point.this));
-			trackManager.resume();
 			compassManager.resume();
 		} catch (Throwable t) {
 			Log.e(getClass().getSimpleName(), "onResume", t);
@@ -127,11 +126,7 @@ public class Point extends Activity {
 		} catch (Throwable t) {
 			Log.e(getClass().getSimpleName(), "onpause", t);
 		}
-		try {
-			trackManager.pause();
-		} catch (Throwable t) {
-			Log.e(getClass().getSimpleName(), "onpause", t);
-		}
+		
 		super.onPause();
 	}
 
@@ -191,7 +186,7 @@ public class Point extends Activity {
 	protected void setActivities(){
 		SharedPreferences prefs = getSharedPreferences("point", MODE_PRIVATE);
 		SharedPreferences.Editor edit=prefs.edit();
-		edit.putString(EDITMAPMARK, EditMapMark.class.getName());
+		//edit.putString(EDITMAPMARK, EditMapMark.class.getName());
 		edit.commit();
 	}
 	

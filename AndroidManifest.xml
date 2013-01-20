@@ -1,87 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="nl.arnorob.pointpro"
-	android:versionCode="140"
-	android:versionName="1.4.0"
->
-	<uses-sdk
-		android:minSdkVersion="3" />
-	<application
-		android:icon="@drawable/icon"
-		android:label="@string/app_name"
-	>
-		<uses-library
-			android:name="com.google.android.maps" />
-		<activity
-			android:name="nl.arnorob.point.Point"
-			android:screenOrientation="portrait"
-			android:label="@string/app_name"
-		>
-			<intent-filter>
-				<action
-					android:name="android.intent.action.MAIN" />
-				<category
-					android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity
-			android:name="nl.arnorob.point.mapmark.MapMarkList"
-		>
-			<intent-filter>
-				<action
-					android:name="MapMarkList" />
-				<category
-					android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-		<activity
-			android:name="nl.arnorob.point.mapmark.EditMapMark"
-		>
-			<intent-filter>
-				<action
-					android:name="EditMapMark" />
-				<category
-					android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-		<receiver
-			android:name="nl.arnorob.point.proximity.AlertSetter"
-		>
-			<intent-filter>
-				<action
-					android:name="android.intent.action.BOOT_COMPLETED" />
-			</intent-filter>
-		</receiver>
-		<receiver
-			android:name="nl.arnorob.point.proximity.AlertReceiver"
-		>
-			<intent-filter>
-				<action
-					android:name="PointAlert" />
-				<data
-					android:scheme="point" />
-			</intent-filter>
-		</receiver>
-		<activity
-			android:name="nl.arnorob.point.proximity.Starter"
-		>
-			<intent-filter>
-				<action
-					android:name="Notified" />
-				<data
-					android:scheme="point" />
-				<category
-					android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-	</application>
-	<uses-permission
-		android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<uses-permission
-		android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission
-		android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	<uses-permission
-		android:name="android.permission.INTERNET" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="nl.arnorob.pointpro"
+    android:versionCode="140"
+    android:versionName="1.4.0" >
+
+    <uses-sdk android:minSdkVersion="3" />
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+
+        <!-- <uses-library android:name="com.google.android.maps" /> -->
+        <activity
+            android:name="nl.arnorob.point.Point"
+            android:label="@string/app_name"
+             >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="nl.arnorob.point.mapmark.MapMarkList" >
+            <intent-filter>
+                <action android:name="MapMarkList" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="nl.arnorob.point.mapmark.EditMapMark" >
+            <intent-filter>
+                <action android:name="EditMapMark" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name="nl.arnorob.point.proximity.AlertSetter" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <!-- add receiver for i'm cloud updates -->
+        <receiver android:name="nl.arnorob.point.proximity.AlertReceiver" >
+            <intent-filter>
+                <action android:name="PointAlert" />
+
+                <data android:scheme="point" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name="nl.arnorob.point.proximity.Starter" >
+            <intent-filter>
+                <action android:name="Notified" />
+
+                <data android:scheme="point" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+    <!--
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+
 </manifest>
