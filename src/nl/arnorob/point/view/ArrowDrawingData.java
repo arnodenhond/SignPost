@@ -1,7 +1,7 @@
 package nl.arnorob.point.view;
 
-import android.util.Log;
 import nl.arnorob.point.model.Trackable;
+import android.util.Log;
 
 public class ArrowDrawingData implements Comparable<ArrowDrawingData> {
 	/**

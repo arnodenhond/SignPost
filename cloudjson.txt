@@ -1,0 +1,379 @@
+{
+	"notifier": false,
+	"descriptions": {
+		"values": {
+			"en": "Set the names and colors of your favorite locations below. Place a latlon marker in Google Maps to get the coordinates. (to be replaced by map input field)."
+		}
+	},
+	"configurationEntries": {
+		"KEY_OWNLOCATION": {
+			"type": "string",
+			"isPassword": false,
+			"index": 1,
+			"key": "KEY_OWNLOCATION",
+			"names": {
+				"values": {
+					"en": "Your location"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "This setting will be replaced by auto update when I'm Watch creates the location sync feature."
+				}
+			},
+			"required": true,
+			"defaultValue": "37.42, -122.08"
+		},
+
+		"KEY_POINTER1NAME": {
+			"type": "string",
+			"isPassword": false,
+			"index": 2,
+			"key": "KEY_POINTER1NAME",
+			"names": {
+				"values": {
+					"en": "Title #1"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The title of pointer #1"
+				}
+			},
+			"required": true,
+			"defaultValue": "Mt. Everest"
+		},
+
+		"KEY_POINTER1LOCATION": {
+			"type": "string",
+			"isPassword": false,
+			"index": 3,
+			"key": "KEY_POINTER1LOCATION",
+			"names": {
+				"values": {
+					"en": "Latlon #1"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The location of pointer #1"
+				}
+			},
+			"required": true,
+			"defaultValue": "27.98,86.92"
+		},
+
+		"KEY_POINTER1COLOR": {
+			"displayNames": [
+				{
+					"values": {
+						"en": "Red"
+					}
+				},
+				{
+					"values": {
+						"en": "Green"
+					}
+				},
+				{
+					"values": {
+						"en": "Blue"
+					}
+				},
+				{
+					"values": {
+						"en": "Cyan"
+					}
+				},
+				{
+					"values": {
+						"en": "Magenta"
+					}
+				},
+				{
+					"values": {
+						"en": "Yellow"
+					}
+				}
+			],
+			"type": "dropdown",
+			"index": 4,
+			"key": "KEY_POINTER1COLOR",
+			"names": {
+				"values": {
+					"en": "Color #1"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The color of pointer #1"
+				}
+			},
+			"required": true,
+			"defaultValue": "0"
+		},
+
+		"KEY_POINTER2NAME": {
+			"type": "string",
+			"isPassword": false,
+			"index": 5,
+			"key": "KEY_POINTER2NAME",
+			"names": {
+				"values": {
+					"en": "Title #2"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The title of pointer #2"
+				}
+			},
+			"required": true,
+			"defaultValue": "Mt. Kilimanjaro"
+		},
+
+		"KEY_POINTER2LOCATION": {
+			"type": "string",
+			"isPassword": false,
+			"index": 6,
+			"key": "KEY_POINTER2LOCATION",
+			"names": {
+				"values": {
+					"en": "Latlon #2"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The location of pointer #2"
+				}
+			},
+			"required": true,
+			"defaultValue": "-3.06,37.35"
+		},
+
+		"KEY_POINTER2COLOR": {
+			"displayNames": [
+				{
+					"values": {
+						"en": "Red"
+					}
+				},
+				{
+					"values": {
+						"en": "Green"
+					}
+				},
+				{
+					"values": {
+						"en": "Blue"
+					}
+				},
+				{
+					"values": {
+						"en": "Cyan"
+					}
+				},
+				{
+					"values": {
+						"en": "Magenta"
+					}
+				},
+				{
+					"values": {
+						"en": "Yellow"
+					}
+				}
+			],
+			"type": "dropdown",
+			"index": 7,
+			"key": "KEY_POINTER2COLOR",
+			"names": {
+				"values": {
+					"en": "Color #2"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The color of pointer #2"
+				}
+			},
+			"required": true,
+			"defaultValue": "1"
+		},
+
+		"KEY_POINTER3NAME": {
+			"type": "string",
+			"isPassword": false,
+			"index": 8,
+			"key": "KEY_POINTER3NAME",
+			"names": {
+				"values": {
+					"en": "Title #3"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The title of pointer #3"
+				}
+			},
+			"required": true,
+			"defaultValue": "Ayers Rock"
+		},
+
+		"KEY_POINTER3LOCATION": {
+			"type": "string",
+			"isPassword": false,
+			"index": 9,
+			"key": "KEY_POINTER3LOCATION",
+			"names": {
+				"values": {
+					"en": "Latlon #3"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The location of pointer #3"
+				}
+			},
+			"required": true,
+			"defaultValue": "-25.34,131.03"
+		},
+
+		"KEY_POINTER3COLOR": {
+			"displayNames": [
+				{
+					"values": {
+						"en": "Red"
+					}
+				},
+				{
+					"values": {
+						"en": "Green"
+					}
+				},
+				{
+					"values": {
+						"en": "Blue"
+					}
+				},
+				{
+					"values": {
+						"en": "Cyan"
+					}
+				},
+				{
+					"values": {
+						"en": "Magenta"
+					}
+				},
+				{
+					"values": {
+						"en": "Yellow"
+					}
+				}
+			],
+			"type": "dropdown",
+			"index": 10,
+			"key": "KEY_POINTER3COLOR",
+			"names": {
+				"values": {
+					"en": "Color #3"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The color of pointer #3"
+				}
+			},
+			"required": true,
+			"defaultValue": "2"
+		}
+		"KEY_POINTER4NAME": {
+			"type": "string",
+			"isPassword": false,
+			"index": 11,
+			"key": "KEY_POINTER4NAME",
+			"names": {
+				"values": {
+					"en": "Title #4"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The title of pointer #4"
+				}
+			},
+			"required": true,
+			"defaultValue": "Mecca"
+		},
+
+		"KEY_POINTER4LOCATION": {
+			"type": "string",
+			"isPassword": false,
+			"index": 12,
+			"key": "KEY_POINTER4LOCATION",
+			"names": {
+				"values": {
+					"en": "Latlon #4"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The location of pointer #4"
+				}
+			},
+			"required": true,
+			"defaultValue": "21.25,39.49"
+		},
+
+		"KEY_POINTER4COLOR": {
+			"displayNames": [
+				{
+					"values": {
+						"en": "Red"
+					}
+				},
+				{
+					"values": {
+						"en": "Green"
+					}
+				},
+				{
+					"values": {
+						"en": "Blue"
+					}
+				},
+				{
+					"values": {
+						"en": "Cyan"
+					}
+				},
+				{
+					"values": {
+						"en": "Magenta"
+					}
+				},
+				{
+					"values": {
+						"en": "Yellow"
+					}
+				}
+			],
+			"type": "dropdown",
+			"index": 13,
+			"key": "KEY_POINTER4COLOR",
+			"names": {
+				"values": {
+					"en": "Color #4"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The color of pointer #4"
+				}
+			},
+			"required": true,
+			"defaultValue": "3"
+		}		
+	}
+}

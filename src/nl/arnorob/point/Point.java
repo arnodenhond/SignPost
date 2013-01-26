@@ -1,7 +1,6 @@
 package nl.arnorob.point;
 
 import nl.arnorob.point.db.DBAdapter;
-//import nl.arnorob.point.mapmark.EditMapMark;
 import nl.arnorob.point.mapmark.MapMarkList;
 import nl.arnorob.point.view.FlatlandView;
 import nl.arnorob.pointpro.R;
@@ -26,12 +25,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+//import nl.arnorob.point.mapmark.EditMapMark;
 
 public class Point extends Activity {
 

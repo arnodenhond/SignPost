@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 public class ViewUpdater {
-	private final Activity a;
+	protected final Activity a;
 
 	public ViewUpdater(Activity a) {
 		this.a = a;

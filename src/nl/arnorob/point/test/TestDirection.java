@@ -1,10 +1,10 @@
 package nl.arnorob.point.test;
 
+import junit.framework.TestCase;
+import nl.arnorob.point.model.Trackable;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
-import nl.arnorob.point.model.Trackable;
-import junit.framework.TestCase;
 
 public class TestDirection extends TestCase {
 

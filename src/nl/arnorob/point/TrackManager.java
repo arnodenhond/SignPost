@@ -4,13 +4,15 @@ import java.util.Arrays;
 
 import nl.arnorob.point.model.Trackable;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 
 public class TrackManager extends ViewUpdater {
 
 	private Trackable[] trackables = new Trackable[0];
 	private Location location;
-
+	
 	public TrackManager(Activity context) {
 		super(context);
 	}
@@ -75,8 +77,9 @@ public class TrackManager extends ViewUpdater {
 
 	public Location getLocation() {
 		Location loc = new Location((String) null);
-		loc.setLatitude(-17.531d);
-		loc.setLongitude(-149.830d);
+		SharedPreferences prefs = a.getSharedPreferences("MYLOCATION", Context.MODE_PRIVATE);
+		loc.setLatitude(prefs.getFloat("LAT", -17.531f));
+		loc.setLongitude(prefs.getFloat("LON",-149.830f));
 		loc.setAccuracy(1f);
 		return loc;
 		// return location;

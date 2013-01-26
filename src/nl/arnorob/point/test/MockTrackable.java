@@ -1,8 +1,8 @@
 package nl.arnorob.point.test;
 
+import nl.arnorob.point.model.Trackable;
 import android.location.Location;
 import android.location.LocationManager;
-import nl.arnorob.point.model.Trackable;
 
 public class MockTrackable extends Trackable {
 

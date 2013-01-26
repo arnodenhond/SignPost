@@ -3,25 +3,21 @@ package nl.arnorob.point.view;
 import java.util.Arrays;
 
 import nl.arnorob.point.CompassManager;
-import nl.arnorob.point.Point;
 import nl.arnorob.point.TrackManager;
 import nl.arnorob.point.model.Trackable;
 import nl.arnorob.pointpro.R;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Shader;
-import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 public class FlatlandView extends View {

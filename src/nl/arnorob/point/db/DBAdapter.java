@@ -5,9 +5,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.graphics.Color;
 
 public class DBAdapter {
@@ -125,6 +125,10 @@ public class DBAdapter {
 		bmValues.put(KEY_PROXRADIUS, proxradius);
 		bmValues.put(KEY_TYPE, type);
 		return db.insert(MAPMARKS_TABLE, null, bmValues);
+	}
+	
+	public void dropAll() {
+		db.delete(MAPMARKS_TABLE, null, null);
 	}
 
 	private static class DBOpenHelper extends SQLiteOpenHelper {

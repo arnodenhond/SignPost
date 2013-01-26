@@ -1,5 +1,8 @@
 package nl.arnorob.point;
 
+import it.imwatch.SensorService;
+import it.imwatch.SensorServiceInstance;
+
 import java.util.Random;
 
 import android.app.Activity;
@@ -8,6 +11,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.util.Log;
 
 public class CompassManagerNew extends ViewUpdater implements SensorEventListener, CompassManager {
@@ -16,11 +20,33 @@ public class CompassManagerNew extends ViewUpdater implements SensorEventListene
 	public float pitchAngle;
 	public float rollAngle;
 	private SensorManager sensorManager;
+	private SensorService mSensor;
+	private Runnable updateViews;
+	Handler handler = new Handler();
 
 	public CompassManagerNew(Activity context) {
 		super(context);
+		 mSensor = new SensorServiceInstance(100);
+		 updateViews = new Runnable() {
+
+	            @Override
+	            public void run() {
+//	                accX.setText(String.format("%1.4f", mSensors.getAccelVector().X));
+//	                accY.setText(String.format("%1.4f", mSensors.getAccelVector().Y));
+//	                accZ.setText(String.format("%1.4f", mSensors.getAccelVector().Z));
+//	                rotX.setText(String.format("%5.1f", mSensors.getRotationVector().X));
+//	                rotY.setText(String.format("%5.1f", mSensors.getRotationVector().Y));
+//	                rotZ.setText(String.format("%5.1f", mSensors.getRotationVector().Z));
+	            	updateHeading((float) mSensor.getNorthAngle(), null);
+	                handler.postDelayed(updateViews, 500);
+	            }
+	        };
+
+	        handler.postDelayed(updateViews, 500);
+		 
+		 
 		sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-		registerSensor();
+//		registerSensor();
 	}
 
 	private void registerSensor() {
@@ -93,11 +119,16 @@ public class CompassManagerNew extends ViewUpdater implements SensorEventListene
 	}
 
 	public void pause() {
-		sensorManager.unregisterListener(this);
+		mSensor.onPause();
+		   handler.removeCallbacks(updateViews);
+		//sensorManager.unregisterListener(this);
 	}
 
 	public void resume() {
-		registerSensor();
+		mSensor.onResume();
+
+        handler.postDelayed(updateViews, 500);
+		//registerSensor();
 	}
 
 }
