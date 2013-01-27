@@ -3,7 +3,6 @@ package nl.arnorob.point.mapmark;
 import nl.arnorob.point.Point;
 import nl.arnorob.point.db.DBAdapter;
 import nl.arnorob.point.model.Trackable;
-import nl.arnorob.point.proximity.AlertSetter;
 import nl.arnorob.pointpro.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -107,17 +106,7 @@ public class MapMarkList extends ListActivity {
 		cc.close();
 	}
 
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		return new AlertDialog.Builder(MapMarkList.this).setTitle(R.string.delete).setMessage(R.string.confirm_del).setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				AlertSetter.setAlert(MapMarkList.this, mmid, false);
-				db.deleteMapMark(mmid);
-				cursor.requery();
-				Toast.makeText(MapMarkList.this, R.string.mapmark_deleted, Toast.LENGTH_SHORT).show();
-			}
-		}).setNegativeButton(R.string.cancel, null).create();
-	}
+
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -147,13 +136,6 @@ public class MapMarkList extends ListActivity {
 			Log.e("" + getClass().getSimpleName(), "", t);
 			return false;
 		}
-	}
-
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		boolean enabled = getListView().isItemChecked(position);
-		db.setMapMarkEnabled(id, enabled);
-		AlertSetter.setAlert(this, id, enabled);
 	}
 
 	@Override
