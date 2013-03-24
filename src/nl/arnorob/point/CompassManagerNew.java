@@ -19,7 +19,7 @@ public class CompassManagerNew extends ViewUpdater implements SensorEventListene
 	private float headingAngle = 180; // North
 	public float pitchAngle;
 	public float rollAngle;
-	private SensorManager sensorManager;
+	//private SensorManager sensorManager;
 	private SensorService mSensor;
 	private Runnable updateViews;
 	Handler handler = new Handler();
@@ -45,13 +45,13 @@ public class CompassManagerNew extends ViewUpdater implements SensorEventListene
 	        handler.postDelayed(updateViews, 500);
 		 
 		 
-		sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+		//sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 //		registerSensor();
 	}
 
-	private void registerSensor() {
-		sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_NORMAL);
-	}
+	//private void registerSensor() {
+	//	sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_NORMAL);
+	//}
 
 	public void simulate() {
 		Thread t = new Thread() {

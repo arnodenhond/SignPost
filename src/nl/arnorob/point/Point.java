@@ -40,6 +40,7 @@ public class Point extends Activity {
 	private static final int WELCOME = 3;
 	private static final int BUDDIES = 4;
 	private static final int INSTRUCTIONS = 5;
+	private static final int NOCONFIG = 7;
 	
 
 	protected static final int UPGRADE = 6;
@@ -57,6 +58,10 @@ public class Point extends Activity {
 		try {
 			super.onCreate(savedInstanceState);
 
+			if (getSharedPreferences("MYLOCATION", Context.MODE_PRIVATE).getFloat("LAT", 999f)==999f) {
+				showDialog(NOCONFIG);
+			}
+			
 			trackManager = new TrackManager(this);
 			compassManager = new CompassManagerNew(this);
 			flatlandView = new FlatlandView(this, trackManager, compassManager);
@@ -94,13 +99,13 @@ public class Point extends Activity {
 			});
 			spotlist.addHeaderView(addTV);
 
-			SharedPreferences prefs = getSharedPreferences("firststart", Activity.MODE_PRIVATE);
-			SharedPreferences.Editor editor = prefs.edit();
-			if (prefs.getBoolean("firststart", true)) {
-				editor.putBoolean("firststart", false);
-				editor.commit();
-				showDialog(WELCOME);
-			}
+//			SharedPreferences prefs = getSharedPreferences("firststart", Activity.MODE_PRIVATE);
+//			SharedPreferences.Editor editor = prefs.edit();
+//			if (prefs.getBoolean("firststart", true)) {
+//				editor.putBoolean("firststart", false);
+//				editor.commit();
+//				showDialog(WELCOME);
+//			}
 
 			// compassManager.simulate();
 		} catch (Throwable t) {
@@ -222,6 +227,14 @@ public class Point extends Activity {
 				return new AlertDialog.Builder(this).setTitle(R.string.welcome).setMessage(R.string.shortintro).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						dismissDialog(WELCOME);
+					}
+				}).create();
+			case NOCONFIG:
+				return new AlertDialog.Builder(this).setTitle(R.string.noconfig).setMessage(R.string.checkcloud).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dismissDialog(NOCONFIG);
+						getSharedPreferences("MYLOCATION", Context.MODE_PRIVATE).edit().clear().commit();
+						finish();
 					}
 				}).create();
 

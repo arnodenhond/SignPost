@@ -21,6 +21,8 @@
 	<string name="accuracy">Spot marked with accuracy</string>
 	<string name="nobuddy">Due to lack of support by Google Latitude, buddy tracking has not yet been implemented in this version.</string>
 	<string name="welcome">Welcome</string>
+	<string name="noconfig">App configuration</string>
+	<string name="checkcloud">Missing app configuration. Check i\'m Cloud</string>
 	<string name="instructions">Instructions</string>
 	<string name="shortintro">Press the <b>menu</b> button to:\n<b>Add MapMark</b> - add a pointer to a location of interest.\n<b>Mark Spot</b> - add a pointer to the current location.\n<b>Pointers</b> - show or hide and edit pointers.\n<b>Help</b> - read further instructions.\n</string>
 	<string name="intro"><b>Screen</b>\nThe blue circle shows the accuracy.\nThe small blue arrow in the middle always points to North.\nPointers grow and shrink according to distance.\n\n<b>Menu items</b>\n<i>Add MapMark</i> - add a pointer to a location of interest.\n<i>Mark Spot</i> - add a pointer to the current location.\n<i>Pointers</i> - show/hide, edit and delete pointers.\n\n<b>Edit MapMark</b>\n<i>Long click</i> in the pointer list to edit a point.\nTap the map to place the pointer.\n\t<i>Color</i> - tap the center of the color ring to save.\n\t<i>Proximity Alert</i> - select a radius and which alerts to receive.\n</string>

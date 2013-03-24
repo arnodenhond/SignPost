@@ -287,7 +287,7 @@
 			},
 			"required": true,
 			"defaultValue": "2"
-		}
+		},
 		"KEY_POINTER4NAME": {
 			"type": "string",
 			"isPassword": false,
@@ -374,6 +374,182 @@
 			},
 			"required": true,
 			"defaultValue": "3"
+		},
+		"KEY_POINTER5NAME": {
+			"type": "string",
+			"isPassword": false,
+			"index": 11,
+			"key": "KEY_POINTER5NAME",
+			"names": {
+				"values": {
+					"en": "Title #5"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The title of pointer #5"
+				}
+			},
+			"required": true,
+			"defaultValue": "Machu Picchu"
+		},
+
+		"KEY_POINTER5LOCATION": {
+			"type": "string",
+			"isPassword": false,
+			"index": 12,
+			"key": "KEY_POINTER5LOCATION",
+			"names": {
+				"values": {
+					"en": "Latlon #5"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The location of pointer #5"
+				}
+			},
+			"required": true,
+			"defaultValue": "-13.16, -72.55"
+		},
+
+		"KEY_POINTER5COLOR": {
+			"displayNames": [
+				{
+					"values": {
+						"en": "Red"
+					}
+				},
+				{
+					"values": {
+						"en": "Green"
+					}
+				},
+				{
+					"values": {
+						"en": "Blue"
+					}
+				},
+				{
+					"values": {
+						"en": "Cyan"
+					}
+				},
+				{
+					"values": {
+						"en": "Magenta"
+					}
+				},
+				{
+					"values": {
+						"en": "Yellow"
+					}
+				}
+			],
+			"type": "dropdown",
+			"index": 13,
+			"key": "KEY_POINTER5COLOR",
+			"names": {
+				"values": {
+					"en": "Color #5"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The color of pointer #5"
+				}
+			},
+			"required": true,
+			"defaultValue": "4"
+		},
+				"KEY_POINTER6NAME": {
+			"type": "string",
+			"isPassword": false,
+			"index": 11,
+			"key": "KEY_POINTER6NAME",
+			"names": {
+				"values": {
+					"en": "Title #6"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The title of pointer #6"
+				}
+			},
+			"required": true,
+			"defaultValue": "Stonehenge"
+		},
+
+		"KEY_POINTER6LOCATION": {
+			"type": "string",
+			"isPassword": false,
+			"index": 12,
+			"key": "KEY_POINTER6LOCATION",
+			"names": {
+				"values": {
+					"en": "Latlon #6"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The location of pointer #6"
+				}
+			},
+			"required": true,
+			"defaultValue": "51.18, -1.83"
+		},
+
+		"KEY_POINTER6COLOR": {
+			"displayNames": [
+				{
+					"values": {
+						"en": "Red"
+					}
+				},
+				{
+					"values": {
+						"en": "Green"
+					}
+				},
+				{
+					"values": {
+						"en": "Blue"
+					}
+				},
+				{
+					"values": {
+						"en": "Cyan"
+					}
+				},
+				{
+					"values": {
+						"en": "Magenta"
+					}
+				},
+				{
+					"values": {
+						"en": "Yellow"
+					}
+				}
+			],
+			"type": "dropdown",
+			"index": 13,
+			"key": "KEY_POINTER6COLOR",
+			"names": {
+				"values": {
+					"en": "Color #6"
+				}
+			},
+			"descriptions": {
+				"values": {
+					"en": "The color of pointer #6"
+				}
+			},
+			"required": true,
+			"defaultValue": "5"
 		}		
+		
+				
 	}
 }
