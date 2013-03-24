@@ -378,7 +378,7 @@
 		"KEY_POINTER5NAME": {
 			"type": "string",
 			"isPassword": false,
-			"index": 11,
+			"index": 14,
 			"key": "KEY_POINTER5NAME",
 			"names": {
 				"values": {
@@ -397,7 +397,7 @@
 		"KEY_POINTER5LOCATION": {
 			"type": "string",
 			"isPassword": false,
-			"index": 12,
+			"index": 15,
 			"key": "KEY_POINTER5LOCATION",
 			"names": {
 				"values": {
@@ -447,7 +447,7 @@
 				}
 			],
 			"type": "dropdown",
-			"index": 13,
+			"index": 16,
 			"key": "KEY_POINTER5COLOR",
 			"names": {
 				"values": {
@@ -465,7 +465,7 @@
 				"KEY_POINTER6NAME": {
 			"type": "string",
 			"isPassword": false,
-			"index": 11,
+			"index": 17,
 			"key": "KEY_POINTER6NAME",
 			"names": {
 				"values": {
@@ -484,7 +484,7 @@
 		"KEY_POINTER6LOCATION": {
 			"type": "string",
 			"isPassword": false,
-			"index": 12,
+			"index": 18,
 			"key": "KEY_POINTER6LOCATION",
 			"names": {
 				"values": {
@@ -534,7 +534,7 @@
 				}
 			],
 			"type": "dropdown",
-			"index": 13,
+			"index": 19,
 			"key": "KEY_POINTER6COLOR",
 			"names": {
 				"values": {
