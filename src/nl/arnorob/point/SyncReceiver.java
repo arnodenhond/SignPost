@@ -20,7 +20,6 @@ public class SyncReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		db = new DBAdapter(context);
 		db.open();
-		db.dropAll();
 		try {
 			JSONTokener tokener = new JSONTokener(
 					intent.getStringExtra("it.imwatch.JSON_DATA"));
@@ -29,10 +28,11 @@ public class SyncReceiver extends BroadcastReceiver {
 				 object = (JSONObject) tokener.nextValue();
 			} catch (NullPointerException npe) {
 				db.close();
-				context.getSharedPreferences("MYLOCATION", Context.MODE_PRIVATE)
-						.edit().clear().commit();
 				return;
 			}
+			context.getSharedPreferences("MYLOCATION", Context.MODE_PRIVATE).edit().clear().commit();
+			db.dropAll();
+
 			object = object.getJSONObject("configurationValues");
 			String ownlocation = object.getString("KEY_OWNLOCATION");
 
