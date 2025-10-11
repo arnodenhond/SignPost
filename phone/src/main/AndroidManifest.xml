@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	package="nl.arnorob.pointlite"
+	android:versionCode="140"
+	android:versionName="1.4.0"
+>
+	<uses-sdk
+		android:minSdkVersion="3" />
+	<application
+		android:icon="@drawable/icon"
+		android:label="@string/app_name"
+	>
+		<uses-library
+			android:name="com.google.android.maps" />
+		<activity
+			android:exported="true"
+			android:name=".Point"
+			android:screenOrientation="portrait"
+			android:label="@string/app_name"
+		>
+			<intent-filter>
+				<action
+					android:name="android.intent.action.MAIN" />
+				<category
+					android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity
+			android:name=".mapmark.MapMarkList"
+			android:exported="false"
+			>
+			<intent-filter>
+				<action
+					android:name="MapMarkList" />
+				<category
+					android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity
+			android:name=".mapmark.EditMapMark"
+			android:exported="false"
+		>
+			<intent-filter>
+				<action
+					android:name="EditMapMark" />
+				<category
+					android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<receiver
+			android:name=".proximity.AlertSetter"
+			android:exported="true"
+		>
+			<intent-filter>
+				<action
+					android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
+		<receiver
+			android:name=".proximity.AlertReceiver"
+			android:exported="false"
+		>
+			<intent-filter>
+				<action
+					android:name="PointAlert" />
+				<data
+					android:scheme="point" />
+			</intent-filter>
+		</receiver>
+		<activity
+			android:name=".proximity.Starter"
+			android:exported="false"
+		>
+			<intent-filter>
+				<action
+					android:name="Notified" />
+				<data
+					android:scheme="point" />
+				<category
+					android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+	</application>
+	<uses-permission
+		android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission
+		android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission
+		android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission
+		android:name="android.permission.INTERNET" />
+</manifest>
