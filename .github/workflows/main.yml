@@ -1,0 +1,32 @@
+name: Post master commits to Mastodon
+
+on:
+  push:
+    branches:
+      - main  # Only main branch
+
+jobs:
+  post-to-mastodon:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Post commit messages with URLs
+        env:
+          MASTODON_TOKEN: ${{ secrets.MASTODON_TOKEN }}
+          MASTODON_INSTANCE: androiddev.social/  # change to your Mastodon instance
+          REPO_NAME: ${{ github.repository }}
+        run: |
+          jq -c '.commits[]' $GITHUB_EVENT_PATH | while read commit; do
+            MESSAGE=$(echo "$commit" | jq -r '.message')
+            SHA=$(echo "$commit" | jq -r '.id')
+            COMMIT_URL="https://github.com/$REPO_NAME/commit/$SHA"
+            STATUS="$MESSAGE $COMMIT_URL"
+            TRUNCATED=$(echo "$STATUS" | cut -c1-500)
+            curl -s \
+              -X POST "https://$MASTODON_INSTANCE/api/v1/statuses" \
+              -H "Authorization: Bearer $MASTODON_TOKEN" \
+              --data-urlencode "status=$TRUNCATED"
+            sleep 2
+          done
