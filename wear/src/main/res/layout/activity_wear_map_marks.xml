@@ -8,19 +8,18 @@
     tools:context=".mapmark.WearMapMarks"
     tools:deviceIds="wear">
 
-    <android.support.wearable.view.ObservableScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <LinearLayout
-        android:gravity="center"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/mapmarklist"
-        android:padding="@dimen/inner_frame_layout_padding"
         app:layout_boxedEdges="all">
 
-    </LinearLayout>
-    </android.support.wearable.view.ObservableScrollView>
+        <LinearLayout
+            android:id="@+id/mapmarklist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.wear.widget.BoxInsetLayout>

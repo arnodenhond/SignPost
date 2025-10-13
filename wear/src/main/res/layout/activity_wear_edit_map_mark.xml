@@ -8,47 +8,44 @@
     tools:context=".mapmark.WearMapMarks"
     tools:deviceIds="wear">
 
-    <android.support.wearable.view.ObservableScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <LinearLayout
-        android:gravity="center"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/mapmarklist"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:padding="@dimen/inner_frame_layout_padding"
         app:layout_boxedEdges="all">
 
-        <Button
+        <LinearLayout
+            android:id="@+id/mapmarklist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/delete"
-            android:text="Delete"/>
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:id="@+id/name"/>
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delete" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Location"
-            android:id="@+id/location"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Color"
-            android:id="@+id/color"/>
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
 
+            <Button
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location" />
 
+            <Button
+                android:id="@+id/color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Color" />
 
-
-    </LinearLayout>
-    </android.support.wearable.view.ObservableScrollView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.wear.widget.BoxInsetLayout>

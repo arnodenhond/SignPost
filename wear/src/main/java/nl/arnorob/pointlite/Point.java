@@ -63,8 +63,9 @@ public class Point extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		SplashScreen.installSplashScreen(this);
+		super.onCreate(savedInstanceState);
+
 		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-			super.onCreate(savedInstanceState);
 			setContentView(R.layout.permissionlayout);
 			Button mButton = findViewById(R.id.permissionsbutton);
 			mButton.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +78,6 @@ public class Point extends Activity {
 		}
 
 		try {
-			super.onCreate(savedInstanceState);
 
 			trackManager = new TrackManager(this);
 			compassManager = new CompassManagerNew(this);

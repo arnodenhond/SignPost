@@ -19,6 +19,7 @@
         <activity
             android:name="nl.arnorob.pointlite.mapmark.WearMapMarks"
             android:exported="false"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:label="@string/title_activity_wear_map_marks" />
 
         <activity
@@ -32,6 +33,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:name="nl.arnorob.pointlite.mapmark.WearEditMapMark"
             android:exported="false"></activity>
         <!--
