@@ -3,7 +3,7 @@ name: Post master commits to Mastodon
 on:
   push:
     branches:
-      - main  # Only main branch
+      - master  # Only main branch
 
 jobs:
   post-to-mastodon:
