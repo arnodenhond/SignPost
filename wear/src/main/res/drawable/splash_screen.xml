@@ -3,6 +3,6 @@
     <item
         android:width="48dp"
         android:height="48dp"
-        android:drawable="@drawable/icon"
+        android:drawable="@mipmap/splashicon_round"
         android:gravity="center" />
 </layer-list>
