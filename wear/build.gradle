@@ -11,8 +11,8 @@ android {
         applicationId "nl.arnorob.pointlite"
         minSdk 30
         targetSdk 36
-        versionCode 154
-        versionName "154"
+        versionCode 155
+        versionName "155"
     }
 
     buildTypes {
