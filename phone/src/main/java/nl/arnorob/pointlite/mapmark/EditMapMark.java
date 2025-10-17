@@ -1,22 +1,19 @@
 package nl.arnorob.pointlite.mapmark;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Intent;
+import android.Manifest;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.flask.colorpicker.ColorPickerView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,172 +21,145 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.Locale;
 
 import nl.arnorob.pointlite.R;
 import nl.arnorob.pointlite.db.DBAdapter;
-import nl.arnorob.pointlite.proximity.AlertSetter;
 
-public class EditMapMark extends FragmentActivity implements OnMapReadyCallback {
+public class EditMapMark extends AppCompatActivity implements OnMapReadyCallback {
 
-	private static final int PROXIMITY = 0;
-	protected static final int UPGRADE = 1;
-	DBAdapter db;
-	ViewGroup proximity;
-	int color;
-	boolean enabled;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private GoogleMap mMap;
+    private DBAdapter db;
+    private long mmid;
+    private EditText nameEditText;
+    private Button colorButton;
+    private double lat;
+    private double lon;
+    private int color;
+    private String name;
 
-	private GoogleMap mMap;
-	private Marker mMarker;
-	private LatLng mLatLng;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.mapmark);
 
-	@Override
-	protected void onCreate(Bundle icicle) {
-		super.onCreate(icicle);
-		setContentView(R.layout.mapmark);
-		SharedPreferences prefs = getSharedPreferences("mapmark", MODE_PRIVATE);
-		final long id = prefs.getLong("mapmark", -1);
-		db = new DBAdapter(EditMapMark.this);
-		db.open();
-		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-		if (mapFragment != null) {
-			mapFragment.getMapAsync(this);
-		}
+        db = new DBAdapter(this);
+        db.open();
 
-		LayoutInflater li = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-		proximity = (ViewGroup) li.inflate(R.layout.proximity, findViewById(android.R.id.content), false);
-		final EditText title = findViewById(R.id.Title);
-		final CheckBox proxenter = proximity.findViewById(R.id.proxenter);
-		final CheckBox proxexit = proximity.findViewById(R.id.proxexit);
-		final EditText proxradius = proximity.findViewById(R.id.proxradius);
-		Button colorButton = findViewById(R.id.color);
-		color = Color.RED;
-		enabled = true;
+        SharedPreferences prefs = getSharedPreferences("mapmark", MODE_PRIVATE);
+        mmid = prefs.getLong("mapmark", -1);
 
-		if (id != -1) {
-			Cursor cursor = db.getMapMark(id);
-			cursor.moveToFirst();
-			title.setText(cursor.getString(DBAdapter.NAME_COLUMN));
-			proxenter.setChecked(cursor.getInt(DBAdapter.PROXENTER_COLUMN) == DBAdapter.ON);
-			proxexit.setChecked(cursor.getInt(DBAdapter.PROXEXIT_COLUMN) == DBAdapter.ON);
-			proxradius.setText(String.format(Locale.ROOT, "%d", cursor.getInt(DBAdapter.PROXRADIUS_COLUMN)));
-			color = cursor.getInt(DBAdapter.COLOR_COLUMN);
-			enabled = cursor.getInt(DBAdapter.POINTERENABLED_COLUMN) == DBAdapter.ON;
-			double latitude = cursor.getDouble(DBAdapter.LATITUDE_COLUMN);
-			double longitude = cursor.getDouble(DBAdapter.LONGITUDE_COLUMN);
-			mLatLng = new LatLng(latitude, longitude);
-			cursor.close();
-		}
+        nameEditText = findViewById(R.id.Title);
+        colorButton = findViewById(R.id.color);
 
-		if (icicle != null) {
-			color = icicle.getInt("color");
-			if (icicle.containsKey("latitude")) {
-				double latitude = icicle.getDouble("latitude");
-				double longitude = icicle.getDouble("longitude");
-				mLatLng = new LatLng(latitude, longitude);
-			}
-		}
+        if (mmid != -1) {
+            Cursor cursor = db.getMapMark(mmid);
+            if (cursor.moveToFirst()) {
+                name = cursor.getString(DBAdapter.NAME_COLUMN);
+                lat = cursor.getDouble(DBAdapter.LATITUDE_COLUMN);
+                lon = cursor.getDouble(DBAdapter.LONGITUDE_COLUMN);
+                color = cursor.getInt(DBAdapter.COLOR_COLUMN);
+            }
+            cursor.close();
+        } else {
+            name = "New Map Mark";
+            color = Color.RED;
+        }
 
-		Button save = findViewById(R.id.Save);
-		save.setOnClickListener(v -> {
-			if (mLatLng == null) {
-				Toast.makeText(EditMapMark.this, R.string.place_marker, Toast.LENGTH_SHORT).show();
-				return;
-			}
-			double dlat = mLatLng.latitude;
-				double dlon = mLatLng.longitude;
-				String titlestring = title.getText().toString();
+        nameEditText.setText(name);
+        colorButton.setBackgroundColor(color);
 
-				String sproxradius = proxradius.getText().toString();
-				if (sproxradius.isEmpty())
-					sproxradius = "0";
-				if (id == -1) {
-					long newid = db.insertMapMark(titlestring, dlat, dlon, color, proxenter.isChecked(), proxexit.isChecked(), Integer.parseInt(sproxradius), DBAdapter.MAPMARK);
-					if (enabled)
-						AlertSetter.setAlert(EditMapMark.this, newid, true);
-				} else {
-					db.updateMapMark(id, titlestring, dlat, dlon, color, proxenter.isChecked(), proxexit.isChecked(), Integer.parseInt(sproxradius));
-					if (enabled) {
-						AlertSetter.setAlert(EditMapMark.this, id, false);
-						AlertSetter.setAlert(EditMapMark.this, id, true);
-					}
-				}
+        colorButton.setOnClickListener(v -> com.flask.colorpicker.builder.ColorPickerDialogBuilder
+                .with(EditMapMark.this)
+                .setTitle("Choose color")
+                .initialColor(color)
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(12)
+                .setOnColorSelectedListener(selectedColor -> {
+                    //
+                })
+                .setPositiveButton("ok", (dialog, selectedColor, allColors) -> {
+                    this.color = selectedColor;
+                    colorButton.setBackgroundColor(this.color);
+                })
+                .setNegativeButton("cancel", (dialog, which) -> {
+                })
+                .build()
+                .show());
 
-				Toast.makeText(EditMapMark.this, R.string.mapmark_saved, Toast.LENGTH_SHORT).show();
-				finish();
-			});
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
 
-		Button proxalert = findViewById(R.id.proxalerts);
-		proxalert.setOnClickListener(v -> proximityButtonClicked());
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        enableMyLocation();
+        mMap.setOnMapClickListener(latLng -> {
+            lat = latLng.latitude;
+            lon = latLng.longitude;
+            updateMap();
+        });
+        updateMap();
+    }
 
-		colorButton.setOnClickListener(v -> com.flask.colorpicker.builder.ColorPickerDialogBuilder
-				.with(EditMapMark.this)
-				.setTitle("Choose color")
-				.initialColor(color)
-				.wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-				.density(12)
-				.setOnColorSelectedListener(selectedColor -> {
-					//
-				})
-				.setPositiveButton("ok", (dialog, selectedColor, allColors) -> color = selectedColor)
-				.setNegativeButton("cancel", (dialog, which) -> {
-				})
-				.build()
-				.show());
-	}
+    private void enableMyLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        } else if (mMap != null) {
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        }
+    }
 
-	@Override
-	public void onMapReady(@NonNull GoogleMap googleMap) {
-		mMap = googleMap;
-		if (mLatLng != null) {
-			mMarker = mMap.addMarker(new MarkerOptions().position(mLatLng));
-			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15));
-		}
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                enableMyLocation();
+            }
+        }
+    }
 
-		mMap.setOnMapClickListener(point -> {
-			if (mMarker == null) {
-				mMarker = mMap.addMarker(new MarkerOptions().position(point));
-			} else {
-				mMarker.setPosition(point);
-			}
-			mLatLng = point;
-		});
-	}
+    private void updateMap() {
+        if (mMap == null) return;
+        mMap.clear();
+        LatLng location = new LatLng(lat, lon);
+        mMap.addMarker(new MarkerOptions().position(location).title(name));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+    }
 
-	@Override
-	protected void onSaveInstanceState(@NonNull Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putInt("color", color);
-		if (mLatLng != null) {
-			outState.putDouble("latitude", mLatLng.latitude);
-			outState.putDouble("longitude", mLatLng.longitude);
-		}
-	}
+    private void save() {
+        name = nameEditText.getText().toString();
+        if (mmid != -1) {
+            db.updateMapMark(mmid, name, lat, lon, color, false, false, 0);
+        } else {
+            mmid = db.insertMapMark(name, lat, lon, color, false, false, 0, DBAdapter.SPOT);
+        }
+    }
 
-	@SuppressWarnings("deprecation")
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		switch (id) {
-		case PROXIMITY:
-			return new AlertDialog.Builder(this).setTitle(R.string.proxalert).setView(proximity).setPositiveButton(R.string.save, (dialog, which) -> dismissDialog(0)).create();
-		case UPGRADE:
-			return new AlertDialog.Builder(this).setMessage(R.string.upgradetext).setPositiveButton(R.string.upgradebutton, (dialog, which) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pname:nl.arnorob.pointlite")))).create();
-		default:
-			throw new IllegalArgumentException("not supported:" + id);
-		}
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_map_mark_menu, menu);
+        return true;
+    }
 
-	@Override
-	protected void onDestroy() {
-		db.close();
-		super.onDestroy();
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_ok) {
+            save();
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-	@SuppressWarnings("deprecation")
-	protected void proximityButtonClicked() {
-		showDialog(PROXIMITY);
-	}
+    @Override
+    protected void onDestroy() {
+        db.close();
+        super.onDestroy();
+    }
 }

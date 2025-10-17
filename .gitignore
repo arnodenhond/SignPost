@@ -21,3 +21,4 @@ local.properties
 /wear/build/
 /.gradle/
 /.idea/
+/phone/build/

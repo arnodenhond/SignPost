@@ -54,7 +54,6 @@ public class FlatlandView extends View {
 	private final Paint ringTextPaint;
 	private final Paint accuracyTextPaint;
 	private final Paint highLitePaint;
-	private final Paint clickPaint;
 	private final Path northArrow;
 	private final Path arrowPath;
 	private final Matrix arrowMatrix;
@@ -63,18 +62,14 @@ public class FlatlandView extends View {
 	private int midy;
 	private ArrowDrawingData[] drawData;
 
-	private Trackable clickedTrackable;
-	private float xClicked = -1;
-	private float yClicked = -1;
-	private long clickTime = 0;
-	private Paint clickPaintFill;
 	private Drawable satellite;
 	private Paint gpsFixTextPaint;
 	private Paint gpsNoFixTextPaint;
-	private static long DELAY_FOR_CLICK_FADE = 600;
 
 	public FlatlandView(Context context, TrackManager tm, CompassManager cm) {
 		super(context);
+		setClickable(true);
+		setEnabled(true);
 		this.tm = tm;
 		this.cm = cm;
 		cm.requestInvalidates(this);
@@ -109,16 +104,6 @@ public class FlatlandView extends View {
 		erasePaint.setColor(COLOR_BACK);
 		erasePaint.setAlpha(255);
 		erasePaint.setStyle(Style.FILL);
-
-		clickPaint = new Paint();
-		clickPaint.setColor(Color.YELLOW);
-		clickPaint.setAlpha(255);
-		clickPaint.setStyle(Style.STROKE);
-		clickPaint.setStrokeWidth(2);
-		clickPaint.setAntiAlias(true);
-
-		clickPaintFill = new Paint(clickPaint);
-		clickPaintFill.setStyle(Style.FILL);
 
 		arrowTextPaint = new Paint();
 		arrowTextPaint.setAntiAlias(true);
@@ -187,59 +172,40 @@ public class FlatlandView extends View {
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public boolean performClick() {
 		try {
-			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				xClicked = event.getX();
-				yClicked = event.getY();
-				clickTime = System.currentTimeMillis();
-				clickedTrackable = findTrackable(xClicked, yClicked);
-				if (clickedTrackable == null) {
-					Log.i("clickedTrackable", "no track there");
-					final View thisview = this;
-					Runnable action = new Runnable() {
-						public void run() {
-							thisview.invalidate();
-						}
-					};
-					postDelayed(action, DELAY_FOR_CLICK_FADE + 100);
-				} else {
-					Log.i("clickedTrackable", clickedTrackable.name);
-					SharedPreferences prefs = getContext().getSharedPreferences("mapmark", Context.MODE_PRIVATE);
-					SharedPreferences.Editor edit = prefs.edit();
-					edit.putLong("mapmark", clickedTrackable.getDbId());
-					edit.commit();
-					getContext().startActivity(new Intent(getContext().getApplicationContext(), Point.getClassForPreference(getContext(), Point.EDITMAPMARK)));
-				}
-				// show last click
-				invalidate();
-				return true;
-			}
+			//if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				Intent intent = new Intent(getContext(), nl.arnorob.pointlite.mapmark.MapMarkList.class);
+				Location loc = tm.getLocation();
+				intent.putExtra("latitude", (float) loc.getLatitude());
+				intent.putExtra("longitude",(float) loc.getLongitude());
+				getContext().startActivity(intent);
+				return super.performClick();
+			//}
 		} catch (Throwable t) {
 			Log.e(getClass().getSimpleName(), "", t);
 		}
 		return false;
 	}
 
-	private synchronized Trackable findTrackable(float x, float y) {
-		// vind hoek & afstand tov midpoint
-		final float xtovMid = x - midx;
-		final float ytovMid = y - midy;
-		final float dist = (float) Math.sqrt(xtovMid * xtovMid + ytovMid * ytovMid);
-		// calculates angle between 0 and 360 where 0 is to the right and counting up clockwise
-		final float angle = GonioUtil.getAngleDegrees(xtovMid, ytovMid);
-
-		// TODO cut out clicks near center
-		Log.i("findTrackable at", " length;" + dist + " angle " + angle);
-		// sort drawdata on length from small to big
-		Arrays.sort(drawData);
-		for (ArrowDrawingData add : drawData) {
-			if (add.isClickOnArrow(angle, dist)) {
-				return add.t;
-			}
-		}
-		return null;
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+//		try {
+//			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                Intent intent = new Intent(getContext(), nl.arnorob.pointlite.mapmark.MapMarkList.class);
+//                Location loc = tm.getLocation();
+//                intent.putExtra("latitude", (float) loc.getLatitude());
+//                intent.putExtra("longitude",(float) loc.getLongitude());
+//                getContext().startActivity(intent);
+//				return true;
+//			}
+//		} catch (Throwable t) {
+//			Log.e(getClass().getSimpleName(), "", t);
+//		}
+//		return false;
+		return super.onTouchEvent(event);
 	}
+
 
 	public synchronized void onDraw(Canvas canvas) {
 		// Log.i("FlatLandView", "redraw");
@@ -248,12 +214,12 @@ public class FlatlandView extends View {
 		midx = getWidth() / 2;
 		midy = getHeight() / 2;
 
-		if (tm.isUsingGPS()) {
-			satellite.setBounds(5, midx + midy - 30, 5 + 30, midx + midy);
-			satellite.draw(canvas);
-			Paint p = tm.hasGPSLock() ? gpsFixTextPaint : gpsNoFixTextPaint;
-			canvas.drawText("" + tm.getGPSSatellites(), 40, midx + midy, p);
-		}
+//		if (tm.isUsingGPS()) {
+//			satellite.setBounds(5, midx + midy - 30, 5 + 30, midx + midy);
+//			satellite.draw(canvas);
+//			Paint p = tm.hasGPSLock() ? gpsFixTextPaint : gpsNoFixTextPaint;
+//			canvas.drawText("" + tm.getGPSSatellites(), 40, midx + midy, p);
+//		}
 
 		final double longestArrow = (tm.getMostDistant() == null) ? 20000000 : tm.getMostDistant().getDistance();
 		int maxRingToDraw = ringDistances[ringDistances.length - 1];
@@ -317,18 +283,6 @@ public class FlatlandView extends View {
 			}
 		}
 		canvas.restore();
-		if (clickTime > 0) {
-			if (System.currentTimeMillis() - clickTime > DELAY_FOR_CLICK_FADE) {
-				xClicked = -1;
-				yClicked = -1;
-				clickTime = 0;
-			}
-		}
-		if (xClicked > -1) {
-			canvas.drawCircle(xClicked, yClicked, 5, clickPaintFill);
-			canvas.drawCircle(xClicked, yClicked, 10, clickPaint);
-		}
-
 		// canvas.drawText("angle:"+, start, end, x, y, paint)
 	}
 

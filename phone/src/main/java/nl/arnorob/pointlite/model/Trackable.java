@@ -21,7 +21,7 @@ public class Trackable implements Comparable<Trackable> {
 		this.name = name;
 		this.location = location;
 		this.id = id;
-		this.color = Color.WHITE;
+		this.color = color;
 	}
 
 	/**

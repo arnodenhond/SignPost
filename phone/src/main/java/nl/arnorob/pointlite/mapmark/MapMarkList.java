@@ -1,5 +1,7 @@
 package nl.arnorob.pointlite.mapmark;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import nl.arnorob.pointlite.Point;
 import nl.arnorob.pointlite.db.DBAdapter;
 import nl.arnorob.pointlite.model.Trackable;
@@ -16,6 +18,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
@@ -66,23 +69,39 @@ public class MapMarkList extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.mapmarklist);
 
 		db = new DBAdapter(this);
 		db.open();
 		cursor = db.getMapMarksCursor();
 		startManagingCursor(cursor);
 		ListView lv = getListView();
+		TextView hdr = new TextView(this);
+		hdr.setPadding(10,10,10,10);
+		hdr.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+		hdr.setText("Long press mapmark to edit or delete");
+		lv.addHeaderView(hdr);
 		lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		SimpleCursorAdapter sca = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_multiple_choice, cursor, new String[] { DBAdapter.KEY_NAME }, new int[] { android.R.id.text1 });
 		setListAdapter(sca);
-		setContentView(getListView());
 
-		TextView emptyTV = new TextView(this);
-		emptyTV.setId(android.R.id.empty);
-		emptyTV.setText(R.string.nomapmarks);
-		emptyTV.setTextSize(25);
-		emptyTV.setGravity(Gravity.CENTER);
-		addContentView(emptyTV, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		getListView().setEmptyView(findViewById(android.R.id.empty));
+
+		FloatingActionButton fab = findViewById(R.id.fab);
+		fab.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				SharedPreferences prefs = getSharedPreferences("mapmark", MODE_PRIVATE);
+				SharedPreferences.Editor edit = prefs.edit();
+				edit.putLong("mapmark", -1);
+				edit.commit();
+				try {
+					startActivity(new Intent(getApplicationContext(), Point.getClassForPreference(MapMarkList.this, Point.EDITMAPMARK)));
+				} catch (ClassNotFoundException e) {
+					Log.e(getClass().getSimpleName(), "Error creating new map mark", e);
+				}
+			}
+		});
 
 		getListView().setLongClickable(true);
 		registerForContextMenu(getListView());
@@ -97,21 +116,38 @@ public class MapMarkList extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (cursor != null) {
+			cursor.requery();
+		}
+		// Resync checked states
 		Cursor cc = db.getMapMarksCursor();
-		cc.moveToFirst();
 		ListView lv = getListView();
+		cc.moveToFirst();
 		for (int i = 0; i < cc.getCount(); i++) {
-			lv.setItemChecked(i, cc.getInt(DBAdapter.POINTERENABLED_COLUMN) == DBAdapter.ON);
+			lv.setItemChecked(i + 1, cc.getInt(DBAdapter.POINTERENABLED_COLUMN) == DBAdapter.ON);
 			cc.moveToNext();
 		}
 		cc.close();
 	}
 
+	//	@Override
+//	protected void onResume() {
+//		Cursor cc = db.getMapMarksCursor();
+//		cc.moveToFirst();
+//		ListView lv = getListView();
+//		for (int i = 0; i < cc.getCount(); i++) {
+//			lv.setItemChecked(i+1, cc.getInt(DBAdapter.POINTERENABLED_COLUMN) == DBAdapter.ON);
+//			cc.moveToNext();
+//		}
+//		cc.close();
+//		super.onResume();
+//	}
+
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		return new AlertDialog.Builder(MapMarkList.this).setTitle(R.string.delete).setMessage(R.string.confirm_del).setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				AlertSetter.setAlert(MapMarkList.this, mmid, false);
+				//AlertSetter.setAlert(MapMarkList.this, mmid, false);
 				db.deleteMapMark(mmid);
 				cursor.requery();
 				Toast.makeText(MapMarkList.this, R.string.mapmark_deleted, Toast.LENGTH_SHORT).show();
@@ -153,7 +189,7 @@ public class MapMarkList extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		boolean enabled = getListView().isItemChecked(position);
 		db.setMapMarkEnabled(id, enabled);
-		AlertSetter.setAlert(this, id, enabled);
+		//AlertSetter.setAlert(this, id, enabled);
 	}
 
 	@Override

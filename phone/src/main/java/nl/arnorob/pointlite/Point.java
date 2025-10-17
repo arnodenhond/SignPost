@@ -5,6 +5,7 @@ import nl.arnorob.pointlite.mapmark.EditMapMark;
 import nl.arnorob.pointlite.mapmark.MapMarkList;
 import nl.arnorob.pointlite.view.FlatlandView;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -26,12 +28,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 public class Point extends Activity {
 
@@ -54,9 +60,21 @@ public class Point extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		try {
-			super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 
+		if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+			setContentView(R.layout.permissionlayout);
+			Button mButton = findViewById(R.id.permissionsbutton);
+			mButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					requestPermissions( new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},1);
+				}
+			});
+			return;
+		}
+
+		try {
 			trackManager = new TrackManager(this);
 			compassManager = new CompassManagerNew(this);
 			flatlandView = new FlatlandView(this, trackManager, compassManager);
@@ -99,7 +117,7 @@ public class Point extends Activity {
 			if (prefs.getBoolean("firststart", true)) {
 				editor.putBoolean("firststart", false);
 				editor.commit();
-				showDialog(WELCOME);
+				//showDialog(WELCOME);
 			}
 
 			// compassManager.simulate();
@@ -283,5 +301,25 @@ public class Point extends Activity {
 		}
 		return super.onCreateDialog(id);
 	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+			recreate();
+		}  else {
+			// Explain to the user that the feature is unavailable because
+			// the feature requires a permission that the user has denied.
+			// At the same time, respect the user's decision. Don't link to
+			// system settings in an effort to convince the user to change
+			// their decision.
+		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		finish();
+	}
+
 
 }

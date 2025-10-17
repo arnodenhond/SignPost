@@ -26,13 +26,13 @@ public class AlertSetter extends BroadcastReceiver {
 
 		Uri uri = Uri.parse("point://alert?id=" + id);
 		Intent intent = new Intent("PointAlert", uri);
-		PendingIntent broadcast = PendingIntent.getBroadcast(context, 0, intent, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-		LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-		if (enabled && (enteron || exiton))
-			lm.addProximityAlert(lat, lon, radius, -1, broadcast);
-		else
-			lm.removeProximityAlert(broadcast);
+//		PendingIntent broadcast = PendingIntent.getBroadcast(context, 0, intent, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//
+//		LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+//		if (enabled && (enteron || exiton))
+//			lm.addProximityAlert(lat, lon, radius, -1, broadcast);
+//		else
+//			lm.removeProximityAlert(broadcast);
 	}
 
 	@Override
