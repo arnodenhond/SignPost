@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace 'nl.arnorob.pointlite.automotive'
+    namespace 'nl.arnorob.pointlite'
     compileSdk 36
 
     defaultConfig {
-        applicationId "nl.arnorob.point.automotive"
+        applicationId "nl.arnorob.pointlite"
         minSdk 28
         targetSdk 36
-        versionCode 1
-        versionName "1.0"
+        versionCode 157
+        versionName "157"
     }
 
     buildTypes {
@@ -31,5 +31,7 @@ android {
 }
 
 dependencies {
-    implementation project(':shared')
+    implementation "androidx.car.app:app:1.4.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
 }
